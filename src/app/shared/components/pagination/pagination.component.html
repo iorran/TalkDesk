@@ -1,0 +1,5 @@
+<ul class="pagination">
+  <li><a (click)="onPrev()" >&lt;</a></li> 
+  <li [ngClass]="{'active' : page?.currentPage === pageNum}" *ngFor="let pageNum of page?.pages" (click)="onPage(pageNum)"><a>{{pageNum}}</a></li> 
+  <li><a (click)="onNext()">&gt;</a></li>
+</ul>

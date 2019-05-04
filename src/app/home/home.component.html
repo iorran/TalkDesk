@@ -1,0 +1,8 @@
+<div class="flex-container">
+    <nav class="nav-categories">
+        <app-categories-list (filter)="doFilter($event)"></app-categories-list>
+    </nav>
+    <section class="apps-list">
+        <app-apps-list [category]="category"></app-apps-list>
+    </section>
+</div>

@@ -1,0 +1,34 @@
+<app-search-bar (searchEvent)="doFilter($event)"></app-search-bar>
+
+<ul>
+  <li *ngFor="let item of pagedItems">
+    <div class="app-item">
+      <div class="box-info">
+        <div class="box-info--content">
+          <div class="description">
+            <h1> {{item.name}} </h1>
+            <p> {{item.description}} </p>
+          </div>
+          <div class="tags">
+            <ng-container *ngFor="let category of item.categories; let last = last;">
+              <span>
+                {{category}}
+              </span>
+              <span *ngIf="!last"> / </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="box-info--footer">
+          <ul>
+            <li *ngFor="let subscription of item.subscriptions; let last = last;">
+              <span>{{subscription.name}}</span>
+              <h3>{{subscription.price / 100 | number: '1.2-2'}}<sup>€</sup></h3>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<app-pagination [page]="pager" (goPrev)="goPrev()" (goNext)="goNext()" (goPage)="goPage($event)"></app-pagination>

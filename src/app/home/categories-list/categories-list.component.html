@@ -1,0 +1,7 @@
+<h2>Categories</h2>
+
+<ul class="nav-menu">
+  <li [ngClass]="{'active' : isActive(item)}" *ngFor="let item of categories$ | async" (click)="doFilter(item)">
+    <a>{{item}}</a>
+  </li>
+</ul>
