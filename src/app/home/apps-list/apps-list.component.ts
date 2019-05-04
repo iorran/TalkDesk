@@ -1,4 +1,5 @@
-import { map } from 'rxjs/operators';
+import { Subscription } from './../../shared/models/subscription';
+import { map, reduce } from 'rxjs/operators';
 import { Pager } from './../../shared/models/pager.model';
 import { HomeService } from './../shared/services/home.service';
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
@@ -24,26 +25,39 @@ export class AppsListComponent implements OnInit, OnChanges {
   constructor(
     private _homeService: HomeService,
     private _pagerService: PagerService
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.getApps();
   }
 
-  public ngOnChanges() {  
+  public ngOnChanges() {
     this.getApps();
   }
 
   private getApps(currentPage: number = 1) {
     this._homeService.findAll()
       .pipe(
-        map(data => data.filter(data => data.categories.indexOf(this.category) !== -1 || !this.category))
+        map(
+          data => this.sortBySumSubscriptions(data.filter(data => data.categories.indexOf(this.category) !== -1 || !this.category))
+        )
       )
       .subscribe(data => {
         this.items = data;
         this.itemsFiltered = data;
         this.setPage(currentPage, data);
       });
+  }
+
+  private sortBySumSubscriptions(apps: App[]) { 
+    return apps.sort(
+      (a, b) =>
+        this.getSumSubscriptions(a) - this.getSumSubscriptions(b)
+    )
+  }
+
+  private getSumSubscriptions(app: App) {
+    return app.subscriptions.reduce((acc, cur) => acc + cur.price, 0);
   }
 
   private setPage(page: number, itens: Array<App>) {

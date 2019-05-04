@@ -5,5 +5,5 @@ export interface App {
     name: string,
     description: string,
     categories : Array<string>,
-    subscriptions: Subscription
+    subscriptions: Array<Subscription>
 }
